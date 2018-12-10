@@ -10,10 +10,10 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface Router {
-    @GET("list_mahasiswa")
+    @GET("dev/list_mahasiswa")
     Call<DaftarMahasiswa> getMahasiswa();
 
-    @POST("post_mahasiswa")
+    @POST("dev/insert_mahasiswa")
     @FormUrlEncoded
     Call<Mahasiswa> postMahasiswa(
             @Field("name") String name,
