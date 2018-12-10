@@ -14,6 +14,12 @@ import java.util.List;
 public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
 
     private List<Mahasiswa> mahasiswas;
+    private MahasiswaListener listener;
+
+    public void setListener(MahasiswaListener listener) {
+        this.listener = listener;
+    }
+
     public MahasiswaAdapter(List<Mahasiswa> mahasiswas){
         this.mahasiswas=mahasiswas;
     }
@@ -26,9 +32,17 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MahasiswaHolder holder, int position) {
+    public void onBindViewHolder(MahasiswaHolder holder, final int position) {
         holder.txt_nama.setText(mahasiswas.get(position).getName());
         holder.txt_nim.setText(mahasiswas.get(position).getNim());
+
+        //menambahkan fungsi hapus
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.OnDelete(mahasiswas.get(position).getId());
+            }
+        });
     }
 
     @Override
@@ -36,4 +50,7 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
         return mahasiswas.size();
     }
 
+    public interface MahasiswaListener{
+        void OnDelete(int mhsId);
+    }
 }

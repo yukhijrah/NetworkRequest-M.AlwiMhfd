@@ -1,5 +1,7 @@
 package com.ole.black.networkrequest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.ole.black.networkrequest.Adapter.MahasiswaAdapter;
 import com.ole.black.networkrequest.Entity.DaftarMahasiswa;
+import com.ole.black.networkrequest.Entity.Mahasiswa;
 import com.ole.black.networkrequest.Network.Network;
 import com.ole.black.networkrequest.Network.Router;
 
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestDaftarMahasiswa(){
-        Router services = Network.request().create(Router.class);
+        final Router services = Network.request().create(Router.class);
         services.getMahasiswa().enqueue(new Callback<DaftarMahasiswa>() {
             @Override
             public void onResponse(Call<DaftarMahasiswa> call, Response<DaftarMahasiswa> response) {
@@ -78,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
                     DaftarMahasiswa mahasiswas = response.body();
                     Log.d("TI16", mahasiswas.getTitle());
                     MahasiswaAdapter adapter = new MahasiswaAdapter(mahasiswas.getData());
+                    //untuk handle button delete di item mahasiswa dan menghapus data di API
+                    adapter.setListener(new MahasiswaAdapter.MahasiswaListener() {
+                        @Override
+                        public void OnDelete(int mhsId) {
+                            String id=String.valueOf(mhsId);
+                            deleteMahasiswa(services,id);
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -101,5 +112,37 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(tambah);
             }
         });
+    }
+
+    private void deleteMahasiswa(final Router services, final String mhsId){
+        //konfirmasi untuk hapus
+        AlertDialog.Builder alert=new AlertDialog.Builder(this);
+        alert.setTitle(R.string.app_name);
+        alert.setMessage("apakah anda yakin?");
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                services.deleteMahasiswa(mhsId).enqueue(new Callback<Mahasiswa>() {
+                    @Override
+                    public void onResponse(Call<Mahasiswa> call, Response<Mahasiswa> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Mahasiswa> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        alert.show();
+
     }
 }
