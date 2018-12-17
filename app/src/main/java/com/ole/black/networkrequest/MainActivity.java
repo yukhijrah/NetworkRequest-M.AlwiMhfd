@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.ole.black.networkrequest.Adapter.MahasiswaAdapter;
@@ -20,6 +20,7 @@ import com.ole.black.networkrequest.Entity.DaftarMahasiswa;
 import com.ole.black.networkrequest.Entity.Mahasiswa;
 import com.ole.black.networkrequest.Network.Network;
 import com.ole.black.networkrequest.Network.Router;
+import com.ole.black.networkrequest.Util.Consts;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +29,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView ;
-    public Button button_tambah;
+    public FloatingActionButton button_tambah;
     LinearLayoutManager llm=new LinearLayoutManager(this);
 
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.lst_mahasiswa);
         recyclerView.setLayoutManager(llm);
         //casting Button
-        button_tambah = (Button)findViewById(R.id.btnTambah);
+        button_tambah = (FloatingActionButton) findViewById(R.id.btnTambah);
         requestDaftarMahasiswa();
     }
 
@@ -108,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
         button_tambah.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent tambah = new Intent(MainActivity.this, AddMahasiswaActivity.class);
-                startActivity(tambah);
+                Intent addIntent=new Intent(MainActivity.this,DetailMahasiswaActivity.class);
+                addIntent.putExtra(Consts.KEY_ACTION_DETAIL,Consts.INTENT_ADD);
+                startActivity(addIntent);
             }
         });
     }

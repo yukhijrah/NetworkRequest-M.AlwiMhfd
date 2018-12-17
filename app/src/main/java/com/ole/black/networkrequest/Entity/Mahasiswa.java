@@ -1,6 +1,8 @@
 package com.ole.black.networkrequest.Entity;
 
-public class Mahasiswa {
+import java.io.Serializable;
+
+public class Mahasiswa implements Serializable {
     public int getId() {
         return id;
     }
@@ -17,5 +19,11 @@ public class Mahasiswa {
         return nim;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setNim(String nim) {
+        this.nim = nim;
+    }
 }
