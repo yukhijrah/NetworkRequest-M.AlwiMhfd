@@ -6,4 +6,10 @@
         android:icon="@mipmap/refresh"
         android:id="@+id/menu_refresh"
         app:showAsAction="ifRoom"/>
+    <item
+        android:title="Favorit"
+        android:icon="@mipmap/fav"
+        android:id="@+id/menu_fav"
+        app:showAsAction="ifRoom"/>
+
 </menu>

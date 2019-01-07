@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         //untuk menggunakan menu
         switch (item.getItemId()){
+            case R.id.menu_fav:
+                startActivity(new Intent(MainActivity.this,FavoriteActivity.class));
+                finish();
+                break;
             case R.id.menu_refresh:
                 //memanggil request daftar mahasiswa
                 requestDaftarMahasiswa();
