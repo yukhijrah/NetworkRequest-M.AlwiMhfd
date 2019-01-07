@@ -21,6 +21,7 @@ import com.ole.black.networkrequest.Entity.Mahasiswa;
 import com.ole.black.networkrequest.Network.Network;
 import com.ole.black.networkrequest.Network.Router;
 import com.ole.black.networkrequest.Util.Consts;
+import com.ole.black.networkrequest.data.MahasiswaRepository;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_fav:
                 startActivity(new Intent(MainActivity.this,FavoriteActivity.class));
-                finish();
                 break;
             case R.id.menu_refresh:
                 //memanggil request daftar mahasiswa
@@ -92,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
                         public void OnDelete(int mhsId) {
                             String id=String.valueOf(mhsId);
                             deleteMahasiswa(services,id);
+                        }
+
+                        @Override
+                        public void OnFavorite(Mahasiswa mahasiswa) {
+                            MahasiswaRepository mhsRepository=new MahasiswaRepository(MainActivity.this);
+                            mhsRepository.insertMahasiswa(mahasiswa);
                         }
                     });
                     recyclerView.setAdapter(adapter);

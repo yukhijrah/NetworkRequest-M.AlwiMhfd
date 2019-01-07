@@ -1,7 +1,9 @@
 package com.ole.black.networkrequest;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -19,16 +21,24 @@ public class FavoriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+
         lstFav=(RecyclerView)findViewById(R.id.lst_favorite);
+        lstFav.setLayoutManager(new LinearLayoutManager(this));
 
         mhsRepository=new MahasiswaRepository(this);
-        List<Mahasiswa> mahasiswas=mhsRepository.getMahasiswa();
-        if (mahasiswas.size()>0){
-            adapter=new MahasiswaAdapter(mahasiswas);
-            lstFav.setAdapter(adapter);
-        }else {
-            Toast.makeText(FavoriteActivity.this,"Tidak ada item favorite",Toast.LENGTH_LONG).show();
-        }
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+                List<Mahasiswa> mahasiswas=mhsRepository.getMahasiswa();
+                if (mahasiswas.size()>0){
+                    adapter=new MahasiswaAdapter(mahasiswas);
+                    lstFav.setAdapter(adapter);
+                }else {
+                    Toast.makeText(FavoriteActivity.this,"Tidak ada item favorite",Toast.LENGTH_LONG).show();
+                }
+                return null;
+            }
+        }.execute();
 
     }
 }

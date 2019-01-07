@@ -62,6 +62,13 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
                 listener.OnDelete(mahasiswas.get(position).getId());
             }
         });
+
+        holder.btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.OnFavorite(mahasiswas.get(position));
+            }
+        });
     }
 
     @Override
@@ -71,5 +78,6 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaHolder> {
 
     public interface MahasiswaListener{
         void OnDelete(int mhsId);
+        void OnFavorite(Mahasiswa mahasiswa);
     }
 }
