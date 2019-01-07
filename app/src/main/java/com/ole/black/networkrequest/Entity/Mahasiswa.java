@@ -1,16 +1,20 @@
 package com.ole.black.networkrequest.Entity;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
-
+@Entity(tableName = "mahasiswa")
 public class Mahasiswa implements Serializable {
-    public int getId() {
-        return id;
-    }
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
     private String nim;
 
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
